@@ -1,7 +1,7 @@
 {
-    "name": "webpack-starter-basic",
-    "version": "2.0.0",
-    "description": "A simple and reliable webpack starter kit for your web adventures needs.",
+    "name": "autocomplete-search-vanillajs",
+    "version": "1.0.0",
+    "description": "Autocomplete search Github users with vanilla JS",
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,33 +12,15 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/lifenautjoe/webpack-starter-basic.git"
+        "url": "git+https://github.com/nandorpersanyi/autocomplete-search-vanillajs"
     },
-    "keywords": [
-        "webpack4",
-        "webpack",
-        "starter",
-        "starter-kit",
-        "kit",
-        "webpack",
-        "seed",
-        "webpack-seed",
-        "webpack4-seed",
-        "webpack4-boilerplate",
-        "boilerplate",
-        "javascript",
-        "js",
-        "es6",
-        "es6-starter",
-        "js-starter",
-        "es6-starter-kit"
-    ],
-    "author": "Joel Hernandez",
+    "keywords": [],
+    "author": "Nandor Persanyi",
     "license": "ISC",
     "bugs": {
-        "url": "https://github.com/lifenautjoe/webpack-starter-basic/issues"
+        "url": "https://github.com/nandorpersanyi/autocomplete-search-vanillajs/issues"
     },
-    "homepage": "https://github.com/lifenautjoe/webpack-starter-basic#readme",
+    "homepage": "https://github.com/nandorpersanyi/autocomplete-search-vanillajs#readme",
     "dependencies": {
         "normalize.css": "^8.0.0"
     },

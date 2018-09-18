@@ -10,7 +10,7 @@ Clone the repository
 
 ```sh
  git clone https://github.com/nandorpersanyi/autocomplete-search-vanillajs.git
- cd PROJECT-NAME
+ cd autocomplete-search-vanillajs
 ```
 
 Install npm dependencies

@@ -5,20 +5,52 @@ const qualifier = "+in:login+type:user";
 const accessToken = "&access_token=5043c7c18640d944574997664169002734113759";
 const minChars = 2; // the minimum number of characters to start making ajax requests
 let autoCompleteXHR = new XMLHttpRequest();
-let selectedUser = false; // global - defaultly there are no selected users
-let usersMax; // global - length of the users list
-
+let selectedUser = false; // defaultly there are no selected users
+let usersMax; // length of the users list
 let gitUsersList = document.getElementById('gitusers-list');
-document.getElementById('user-input').addEventListener("keyup", event => autoComplete(event));
-document.addEventListener("keydown", event => keyDownHandle(event));
 
+// add event listeners
+gitUsersList.addEventListener("mouseover", hoverUser);
+document.getElementById('user-input').addEventListener("keyup", event => autoComplete(event));
+document.addEventListener("keydown", event => captureKeyboard(event));
+
+// keyup event callback. currentTarget > #user-input
 function autoComplete(event) {
 	// check if input was alphanumeric or backspace or delete and the whole input is larger than minimum characters
 	if(((event.which >= 48 && event.which <= 90) || (event.which === 8 || event.which === 46)) && event.target.value.length > minChars){
 		getUsersAjax(event.target.value);
+		event.stopPropagation();
 	// if input is backspace or delete and the whole input is smaller than minimum characters
 	} else if((event.which === 8 || event.which === 46) && event.target.value.length <= minChars){
 		emptyList();
+		event.stopPropagation();
+	}
+}
+
+// hover event callback. currentTarget > #gitusers-list
+// Event delegation .git-user > #gitusers-list
+function hoverUser(event){
+	event.path.forEach((path) => {
+		if(path.className === 'git-user'){
+			event.stopPropagation();
+			selectedUser = path.attributes[0].value;
+    		highLightUser();
+		}
+	})    
+}
+
+// keydown event callback. currentTarget > document
+function captureKeyboard(event){
+	if((event.which === 38) && (gitUsersList.innerHTML.length > 0)){
+		event.stopPropagation();
+		selectUser('up');
+	} else if((event.which === 40) && (gitUsersList.innerHTML.length > 0)){
+		event.stopPropagation();
+		selectUser('down');
+	} else if((event.which === 13) && (gitUsersList.innerHTML.length > 0)){
+		event.stopPropagation();
+		let toHighLight = document.querySelector(`[data-index="${selectedUser}"]`);
+		window.open(toHighLight.childNodes[1].href);
 	}
 }
 
@@ -40,7 +72,7 @@ function buildUsersList(usersJson){
 	usersJson.items.forEach((gitUser,index) => {
         let gitUserDiv = document.createElement('div');
         gitUserDiv.setAttribute("data-index", index + 1);
-        gitUserDiv.addEventListener("mouseover", hoverUser, true);
+        gitUserDiv.classList.add("git-user");
         gitUserDiv.innerHTML = `
         	<a href="${gitUser.html_url}" target="_blank">
         	<span class="gitusers-avatar"><img src="${gitUser.avatar_url}"></span>
@@ -52,17 +84,6 @@ function buildUsersList(usersJson){
 function emptyList(){
 	gitUsersList.innerHTML = "";
 	selectedUser = false;
-}
-
-function keyDownHandle(event){
-	if((event.which === 38) && (gitUsersList.innerHTML.length > 0)){
-		selectUser('up');
-	} else if((event.which === 40) && (gitUsersList.innerHTML.length > 0)){
-		selectUser('down');
-	} else if((event.which === 13) && (gitUsersList.innerHTML.length > 0)){
-		let toHighLight = document.querySelector(`[data-index="${selectedUser}"]`);
-		window.open(toHighLight.childNodes[1].href);
-	}
 }
 
 function selectUser(direction){
@@ -103,9 +124,4 @@ function highLightUser(){
 	let dataIndex = `[data-index="${selectedUser}"]`;
 	let toHighLight = document.querySelector(`[data-index="${selectedUser}"]`);
 	toHighLight.classList.add("selected-git-user");
-}
-
-function hoverUser(event){
-    selectedUser = event.currentTarget.getAttribute('data-index');
-    highLightUser();
 }

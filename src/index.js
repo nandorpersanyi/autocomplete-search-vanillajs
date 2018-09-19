@@ -38,14 +38,14 @@ function buildUsersList(usersJson){
 	emptyList();
 	usersMax = usersJson.items.length;
 	usersJson.items.forEach((gitUser,index) => {
-        let option = document.createElement('div');
-        option.setAttribute("data-index", index + 1);
-        option.addEventListener("mouseover", hoverUser, true);
-        option.innerHTML = `
+        let gitUserDiv = document.createElement('div');
+        gitUserDiv.setAttribute("data-index", index + 1);
+        gitUserDiv.addEventListener("mouseover", hoverUser, true);
+        gitUserDiv.innerHTML = `
         	<a href="${gitUser.html_url}" target="_blank">
         	<span class="gitusers-avatar"><img src="${gitUser.avatar_url}"></span>
         	<span class="gitusers-name">${gitUser.login}</span></a>`;
-        gitUsersList.appendChild(option);
+        gitUsersList.appendChild(gitUserDiv);
     });
 }
 
@@ -95,14 +95,14 @@ function selectUser(direction){
 
 function highLightUser(){
 	// remove the "selector" class from previously selected element
-	var removeClassArr = document.querySelector(".selectedGitUser");
+	var removeClassArr = document.querySelector(".selected-git-user");
 	if(removeClassArr) {
-		removeClassArr.classList.remove("selectedGitUser");
+		removeClassArr.classList.remove("selected-git-user");
 	}
 	// add "selector" class to newly selected element
 	let dataIndex = `[data-index="${selectedUser}"]`;
 	let toHighLight = document.querySelector(`[data-index="${selectedUser}"]`);
-	toHighLight.classList.add("selectedGitUser");
+	toHighLight.classList.add("selected-git-user");
 }
 
 function hoverUser(event){
